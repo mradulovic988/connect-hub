@@ -5,6 +5,10 @@ Started date: 2020-15-08
 ## [1.0.0] - 2020-15-08
 ### Added
 - Added structure for the Connect Hub
+- Settings API 
+- class Connect_Hub_Settings_Api
+- is_active() to check if is active menu page on header links
+- added checkbox for Messaging Center
 
 ### Changed
 - 
