@@ -20,7 +20,8 @@
  * @subpackage Connect_Hub/admin
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
-class Connect_Hub_Admin {
+class Connect_Hub_Admin 
+{
 
 	/**
 	 * The ID of this plugin.
@@ -47,7 +48,8 @@ class Connect_Hub_Admin {
 	 * @param      string    $plugin_name       The name of this plugin.
 	 * @param      string    $version    The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $version ) 
+	{
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
@@ -59,7 +61,8 @@ class Connect_Hub_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles() 
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.
@@ -82,7 +85,8 @@ class Connect_Hub_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts() 
+	{
 
 		/**
 		 * This function is provided for demonstration purposes only.

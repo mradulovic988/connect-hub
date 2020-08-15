@@ -24,7 +24,8 @@
  * @subpackage Connect_Hub/includes
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
-class Connect_Hub_i18n {
+class Connect_Hub_i18n 
+{
 
 
 	/**
@@ -32,7 +33,8 @@ class Connect_Hub_i18n {
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_plugin_textdomain() {
+	public function load_plugin_textdomain() 
+	{
 
 		load_plugin_textdomain(
 			'connect-hub',

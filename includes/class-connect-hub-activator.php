@@ -20,7 +20,8 @@
  * @subpackage Connect_Hub/includes
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
-class Connect_Hub_Activator {
+class Connect_Hub_Activator 
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,7 +30,8 @@ class Connect_Hub_Activator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function activate() {
+	public static function activate() 
+	{
 
 	}
 

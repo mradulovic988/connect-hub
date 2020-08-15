@@ -1,13 +1,6 @@
 <?php
 
 /**
- * The plugin bootstrap file
- *
- * This file is read by WordPress to generate the plugin information in the plugin
- * admin area. This file also includes all of the dependencies used by the plugin,
- * registers the activation and deactivation functions, and defines a function
- * that starts the plugin.
- *
  * @link              https://mlab-studio.com
  * @since             1.0.0
  * @package           Connect_Hub
@@ -15,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name:       Connect Hub
  * Plugin URI:        https://mlab-studio.com
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Connect Hub is a powerful plugin that will manage your communication on many level with all of the users from the website. Registered and non-registered.
  * Version:           1.0.0
  * Author:            Marko Radulovic
  * Author URI:        https://mlab-studio.com
@@ -41,7 +34,8 @@ define( 'CONNECT_HUB_VERSION', '1.0.0' );
  * The code that runs during plugin activation.
  * This action is documented in includes/class-connect-hub-activator.php
  */
-function activate_connect_hub() {
+function activate_connect_hub() 
+{
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-connect-hub-activator.php';
 	Connect_Hub_Activator::activate();
 }
@@ -50,7 +44,8 @@ function activate_connect_hub() {
  * The code that runs during plugin deactivation.
  * This action is documented in includes/class-connect-hub-deactivator.php
  */
-function deactivate_connect_hub() {
+function deactivate_connect_hub() 
+{
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-connect-hub-deactivator.php';
 	Connect_Hub_Deactivator::deactivate();
 }
@@ -73,7 +68,8 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-connect-hub.php';
  *
  * @since    1.0.0
  */
-function run_connect_hub() {
+function run_connect_hub() 
+{
 
 	$plugin = new Connect_Hub();
 	$plugin->run();

@@ -20,7 +20,8 @@
  * @subpackage Connect_Hub/includes
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
-class Connect_Hub_Deactivator {
+class Connect_Hub_Deactivator 
+{
 
 	/**
 	 * Short Description. (use period)
@@ -29,7 +30,8 @@ class Connect_Hub_Deactivator {
 	 *
 	 * @since    1.0.0
 	 */
-	public static function deactivate() {
+	public static function deactivate() 
+	{
 
 	}
 

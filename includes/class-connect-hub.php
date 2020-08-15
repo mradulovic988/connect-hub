@@ -27,7 +27,8 @@
  * @subpackage Connect_Hub/includes
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
-class Connect_Hub {
+class Connect_Hub 
+{
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -66,7 +67,8 @@ class Connect_Hub {
 	 *
 	 * @since    1.0.0
 	 */
-	public function __construct() {
+	public function __construct() 
+	{
 		if ( defined( 'CONNECT_HUB_VERSION' ) ) {
 			$this->version = CONNECT_HUB_VERSION;
 		} else {
@@ -78,6 +80,7 @@ class Connect_Hub {
 		$this->set_locale();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+		$this->define_settings_api();
 
 	}
 
@@ -97,7 +100,8 @@ class Connect_Hub {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function load_dependencies() {
+	private function load_dependencies() 
+	{
 
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
@@ -122,6 +126,11 @@ class Connect_Hub {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-connect-hub-public.php';
 
+		/**
+		 * The class responsible for defining a Settings API for the plugin
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/api/settings/class-connect-hub-settings-api.php';
+
 		$this->loader = new Connect_Hub_Loader();
 
 	}
@@ -135,7 +144,8 @@ class Connect_Hub {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function set_locale() {
+	private function set_locale() 
+	{
 
 		$plugin_i18n = new Connect_Hub_i18n();
 
@@ -150,7 +160,8 @@ class Connect_Hub {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_admin_hooks() {
+	private function define_admin_hooks() 
+	{
 
 		$plugin_admin = new Connect_Hub_Admin( $this->get_plugin_name(), $this->get_version() );
 
@@ -160,13 +171,27 @@ class Connect_Hub {
 	}
 
 	/**
+	 * Register all of the hooks related to the Settings API area functionality
+	 * of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 */
+	private function define_settings_api() 
+	{
+
+		$settings_api = new Connect_Hub_Settings_Api( $this->get_plugin_name(), $this->get_version() );
+	}
+
+	/**
 	 * Register all of the hooks related to the public-facing functionality
 	 * of the plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function define_public_hooks() {
+	private function define_public_hooks() 
+	{
 
 		$plugin_public = new Connect_Hub_Public( $this->get_plugin_name(), $this->get_version() );
 
@@ -180,7 +205,8 @@ class Connect_Hub {
 	 *
 	 * @since    1.0.0
 	 */
-	public function run() {
+	public function run() 
+	{
 		$this->loader->run();
 	}
 
@@ -191,7 +217,8 @@ class Connect_Hub {
 	 * @since     1.0.0
 	 * @return    string    The name of the plugin.
 	 */
-	public function get_plugin_name() {
+	public function get_plugin_name() 
+	{
 		return $this->plugin_name;
 	}
 
@@ -201,7 +228,8 @@ class Connect_Hub {
 	 * @since     1.0.0
 	 * @return    Connect_Hub_Loader    Orchestrates the hooks of the plugin.
 	 */
-	public function get_loader() {
+	public function get_loader() 
+	{
 		return $this->loader;
 	}
 
@@ -211,7 +239,8 @@ class Connect_Hub {
 	 * @since     1.0.0
 	 * @return    string    The version number of the plugin.
 	 */
-	public function get_version() {
+	public function get_version() 
+	{
 		return $this->version;
 	}
 
