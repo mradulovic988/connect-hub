@@ -27,8 +27,7 @@ class Connect_Hub_Settings_Api
 		add_action( 'admin_menu', [ $this, 'add_admin_pages' ] );
 		add_action( 'admin_init', [ $this, 'ch_register_settings_control_center' ] );
 
-		add_action( 'wp_head', [ $this, 'test' ] );
-		$this->test();
+		add_action( 'wp_head', [ $this, 'get_fields' ] );
 	}
 
 	/**
@@ -319,7 +318,7 @@ class Connect_Hub_Settings_Api
 		register_setting( 
 			'ch_control_center_setting', 
 			'ch_control_center_setting', 
-			'ch_control_center_setting_sanitize' 
+			'ch_control_center_setting_sanitize'
 		);
 
 		add_settings_section( 
@@ -362,13 +361,6 @@ class Connect_Hub_Settings_Api
 		);
 	}
 
-	public function test()
-	{
-		if ( isset( $_POST[ 'banner' ] ) ) {
-			echo 'test';
-		}
-	}
-
 	/**
 	 * Description from the setting api for the 
 	 * Control Center admin page
@@ -390,6 +382,23 @@ class Connect_Hub_Settings_Api
 
 		echo '<input type="checkbox" id="messaging" name="ch_control_center_setting[messaging]" value="1"' . $is_option_set . '/>';
 		echo '<label for="messaging">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
+	}
+
+	public function get_fields()
+	{
+		$options = get_option( 'ch_control_center_setting' );
+
+		if ( isset( $options[ 'messaging' ] ) ) {
+			echo 'Messaging Center is set on ' . $options[ 'messaging' ] . '<br>';
+		}
+
+		if ( isset( $options[ 'negotiation' ] ) ) {
+			echo 'Negotiation Hub is set on ' . $options[ 'negotiation' ] . '<br>';
+		} 
+
+		if ( isset( $options[ 'banner' ] ) ) {
+			echo 'Header Banner is set on ' . $options[ 'banner' ] . '<br>';
+		}
 	}
 
 	/**
