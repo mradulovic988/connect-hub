@@ -39,9 +39,9 @@ class Connect_Hub_Settings_Api
 			'manage_options', 
 			'ch_connect_hub', 
 			[ 
-				$this, 'ch_control_center' 
+				$this, 'ch_control_center', 
 			],
-			'',
+			$this->dashicon_icon(),
 			65
 		);
 
@@ -110,6 +110,14 @@ class Connect_Hub_Settings_Api
 				$this, 'ch_update_to_pro'
 			]
 		);	
+	}
+
+	/**
+	 * Dashicon icon
+	 */
+	protected function dashicon_icon()
+	{
+		return plugins_url( 'connect-hub' . '/admin/img/connect-hub-dashicon.png' );
 	}
 
 	/**
