@@ -28,6 +28,9 @@ class Connect_Hub_Settings_Api
 		add_action( 'admin_init', [ $this, 'ch_register_settings_control_center' ] );
 	}
 
+	/**
+	 * Adding admin page for the Connect Hub
+	 */
 	public function add_admin_pages() 
 	{
 		add_menu_page( 
@@ -106,8 +109,7 @@ class Connect_Hub_Settings_Api
 			[
 				$this, 'ch_update_to_pro'
 			]
-		);
-		
+		);	
 	}
 
 	/**
@@ -148,6 +150,9 @@ class Connect_Hub_Settings_Api
 		}
 	}
 	
+	/**
+	 * Control Center admin page
+	 */
 	public function ch_control_center()
 	{
 		?>
@@ -170,6 +175,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Messaging Center admin page
+	 */
 	public function ch_messaging_center()
 	{
 		?>
@@ -192,6 +200,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Negotiation Hub admin page
+	 */
 	public function ch_negotiation_hub()
 	{
 		?>
@@ -214,6 +225,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Header Banner admin page
+	 */
 	public function ch_header_banner()
 	{
 		?>
@@ -236,6 +250,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Documentation admin page
+	 */
 	public function ch_documentation()
 	{
 		?>
@@ -258,6 +275,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Update to Pro admin page
+	 */
 	public function ch_update_to_pro()
 	{
 		?>
@@ -280,6 +300,9 @@ class Connect_Hub_Settings_Api
 		<?php
 	}
 
+	/**
+	 * Register setting for the Control Center admin page
+	 */
 	public function ch_register_settings_control_center()
 	{
 		register_setting( 
@@ -308,11 +331,18 @@ class Connect_Hub_Settings_Api
 		);
 	}
 
+	/**
+	 * Description from the setting api for the 
+	 * Control Center admin page
+	 */
 	public function ch_settings_section_desc()
 	{
 		echo __( 'You can control every section of the plugin by check it or uncheck it.', 'connect-hub' );
 	}
 
+	/**
+	 * Input field related to the Control Center
+	 */
 	public function ch_control_center_setting_checkbox()
 	{
 		$options = get_option( 'ch_control_center_setting' );
