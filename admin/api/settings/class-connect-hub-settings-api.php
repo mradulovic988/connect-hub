@@ -26,6 +26,9 @@ class Connect_Hub_Settings_Api
 	{
 		add_action( 'admin_menu', [ $this, 'add_admin_pages' ] );
 		add_action( 'admin_init', [ $this, 'ch_register_settings_control_center' ] );
+
+		add_action( 'wp_head', [ $this, 'test' ] );
+		$this->test();
 	}
 
 	/**
@@ -321,7 +324,7 @@ class Connect_Hub_Settings_Api
 
 		add_settings_section( 
 			'ch_control_center', 
-			__( 'Turn on/off', 'connect-hub'), 
+			__( 'Turn On / Off', 'connect-hub'), 
 			[
 				$this, 'ch_settings_section_desc'
 			], 
@@ -329,14 +332,41 @@ class Connect_Hub_Settings_Api
 		);
 
 		add_settings_field( 
-			'ch_control_center_setting_checkbox', 
+			'ch_control_center_setting_messaging', 
 			__( 'Messaging Center', 'connect-hub' ), 
 			[ 
-				$this, 'ch_control_center_setting_checkbox' 
+				$this, 'ch_control_center_setting_messaging' 
 			], 
 			'ch_settings_section', 
 			'ch_control_center' 
 		);
+
+		add_settings_field( 
+			'ch_control_center_setting_negotiation', 
+			__( 'Negotiation Hub', 'connect-hub' ), 
+			[ 
+				$this, 'ch_control_center_setting_negotiation' 
+			], 
+			'ch_settings_section', 
+			'ch_control_center' 
+		);
+
+		add_settings_field( 
+			'ch_control_center_setting_banner', 
+			__( 'Header Banner', 'connect-hub' ), 
+			[ 
+				$this, 'ch_control_center_setting_banner' 
+			], 
+			'ch_settings_section', 
+			'ch_control_center' 
+		);
+	}
+
+	public function test()
+	{
+		if ( isset( $_POST[ 'banner' ] ) ) {
+			echo 'test';
+		}
 	}
 
 	/**
@@ -350,15 +380,44 @@ class Connect_Hub_Settings_Api
 
 	/**
 	 * Input field related to the Control Center
+	 * for the Messaging Center
 	 */
-	public function ch_control_center_setting_checkbox()
+	public function ch_control_center_setting_messaging()
 	{
 		$options = get_option( 'ch_control_center_setting' );
 
-		$is_option_set = isset($options['checkbox']) ? checked( 1, $options['checkbox'], false ) : NULL;
-		
-		echo '<input type="checkbox" id="checkbox_example" name="ch_control_center_setting[checkbox]" value="1"' . $is_option_set . '/>';
-		echo '<label for="checkbox_example">' . __( 'Check this if you want to enable it.', 'connect-hub' ) . '</label>';
+		$is_option_set = isset( $options[ 'messaging' ] ) ? checked( 1, $options[ 'messaging' ], false ) : NULL;
+
+		echo '<input type="checkbox" id="messaging" name="ch_control_center_setting[messaging]" value="1"' . $is_option_set . '/>';
+		echo '<label for="messaging">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
+	}
+
+	/**
+	 * Input field related to the Control Center
+	 * for the Negotiation Hub
+	 */
+	public function ch_control_center_setting_negotiation()
+	{
+		$options = get_option( 'ch_control_center_setting' );
+
+		$is_option_set = isset( $options[ 'negotiation' ] ) ? checked( 1, $options[ 'negotiation' ], false ) : NULL;
+
+		echo '<input type="checkbox" id="negotiation" name="ch_control_center_setting[negotiation]" value="1"' . $is_option_set . '/>';
+		echo '<label for="negotiation">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
+	}
+
+	/**
+	 * Input field related to the Control Center
+	 * for the Header Banner
+	 */
+	public function ch_control_center_setting_banner()
+	{
+		$options = get_option( 'ch_control_center_setting' );
+
+		$is_option_set = isset( $options[ 'banner' ] ) ? checked( 1, $options[ 'banner' ], false ) : NULL;
+
+		echo '<input type="checkbox" id="banner" name="ch_control_center_setting[banner]" value="1"' . $is_option_set . '/>';
+		echo '<label for="banner">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
 	}
 	
 
