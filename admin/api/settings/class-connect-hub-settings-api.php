@@ -380,10 +380,44 @@ class Connect_Hub_Settings_Api
 
 		$is_option_set = isset( $options[ 'messaging' ] ) ? checked( 1, $options[ 'messaging' ], false ) : NULL;
 
-		echo '<input type="checkbox" id="messaging" name="ch_control_center_setting[messaging]" value="1"' . $is_option_set . '/>';
-		echo '<label for="messaging">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
+		echo '<label class="switch" for="messaging">';
+		echo '<input type="checkbox" class="switch-input" id="messaging" name="ch_control_center_setting[messaging]" value="1"' . $is_option_set . '/>';
+		echo '<span class="slider round"></span>';
+		echo '</label>';
 	}
 
+	/**
+	 * Input field related to the Control Center
+	 * for the Negotiation Hub
+	 */
+	public function ch_control_center_setting_negotiation()
+	{
+		$options = get_option( 'ch_control_center_setting' );
+
+		$is_option_set = isset( $options[ 'negotiation' ] ) ? checked( 1, $options[ 'negotiation' ], false ) : NULL;
+
+		echo '<label class="switch" for="negotiation">';
+		echo '<input type="checkbox" class="switch-input" id="negotiation" name="ch_control_center_setting[negotiation]" value="1"' . $is_option_set . '/>';
+		echo '<span class="slider round"></span>';
+		echo '</label>';
+	}
+
+	/**
+	 * Input field related to the Control Center
+	 * for the Header Banner
+	 */
+	public function ch_control_center_setting_banner()
+	{
+		$options = get_option( 'ch_control_center_setting' );
+
+		$is_option_set = isset( $options[ 'banner' ] ) ? checked( 1, $options[ 'banner' ], false ) : NULL;
+		
+		echo '<label class="switch" for="banner">';
+		echo '<input type="checkbox" class="switch-input" id="banner" name="ch_control_center_setting[banner]" value="1"' . $is_option_set . '/>';
+		echo '<span class="slider round"></span>';
+		echo '</label>';
+	}
+	
 	public function get_fields()
 	{
 		$options = get_option( 'ch_control_center_setting' );
@@ -400,34 +434,4 @@ class Connect_Hub_Settings_Api
 			echo 'Header Banner is set on ' . $options[ 'banner' ] . '<br>';
 		}
 	}
-
-	/**
-	 * Input field related to the Control Center
-	 * for the Negotiation Hub
-	 */
-	public function ch_control_center_setting_negotiation()
-	{
-		$options = get_option( 'ch_control_center_setting' );
-
-		$is_option_set = isset( $options[ 'negotiation' ] ) ? checked( 1, $options[ 'negotiation' ], false ) : NULL;
-
-		echo '<input type="checkbox" id="negotiation" name="ch_control_center_setting[negotiation]" value="1"' . $is_option_set . '/>';
-		echo '<label for="negotiation">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
-	}
-
-	/**
-	 * Input field related to the Control Center
-	 * for the Header Banner
-	 */
-	public function ch_control_center_setting_banner()
-	{
-		$options = get_option( 'ch_control_center_setting' );
-
-		$is_option_set = isset( $options[ 'banner' ] ) ? checked( 1, $options[ 'banner' ], false ) : NULL;
-
-		echo '<input type="checkbox" id="banner" name="ch_control_center_setting[banner]" value="1"' . $is_option_set . '/>';
-		echo '<label for="banner">' . __( 'Check this if you want to enable.', 'connect-hub' ) . '</label>';
-	}
-	
-
 }

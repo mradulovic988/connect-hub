@@ -31,6 +31,7 @@ Started date: 2020-15-08
 ### Added
 - Dashicon Icon
 - Added checkboxes on Control Center
+- Added toogle button on checkbox
 
 ### Changed
 - 
