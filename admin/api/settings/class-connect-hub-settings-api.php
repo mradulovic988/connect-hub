@@ -27,7 +27,11 @@ class Connect_Hub_Settings_Api
 		add_action( 'admin_menu', [ $this, 'add_admin_pages' ] );
 		add_action( 'admin_init', [ $this, 'ch_register_settings_control_center' ] );
 
+		add_action( 'admin_init', [ $this, 'ch_register_settings_header_banner' ] );
+
 		add_action( 'wp_head', [ $this, 'get_fields' ] );
+
+		add_action( 'admin_notices', [ $this, 'error_notice' ] );
 	}
 
 	/**
@@ -173,16 +177,26 @@ class Connect_Hub_Settings_Api
 			<?php $this->is_active( 'ch_connect_hub', 'ch_connect_hub', 'ch_messaging_center' ); ?>
 
 			<form action="options.php" method="post">
-				<?php 
-				settings_fields( 'ch_control_center_setting' );
-				do_settings_sections( 'ch_settings_section' );
 
-				submit_button();
+				<?php
+				settings_fields( 'ch_control_center_setting' );
+				do_settings_sections( 'ch_control_settings_section' );
+
+				submit_button( __( 'Save Settings', 'connect-hub' ), 'primary', 'control_center_submit' );
 				?>
+
 			</form>
 
 		</div>
 		<?php
+	}
+
+	/**
+	 * Show notice message on form submit
+	 */
+	public function error_notice()
+	{
+		settings_errors();
 	}
 
 	/**
@@ -249,10 +263,10 @@ class Connect_Hub_Settings_Api
 
 			<form action="options.php" method="post">
 				<?php 
-				settings_fields( '' );
-				do_settings_sections( '' );
+				settings_fields( 'ch_header_banner' );
+				do_settings_sections( 'ch_header_banner_settings_section' );
 
-				submit_button();
+				submit_button( __( 'Save Settings', 'connect-hub' ), 'primary', 'header_banner_submit' );
 				?>
 			</form>
 
@@ -327,7 +341,7 @@ class Connect_Hub_Settings_Api
 			[
 				$this, 'ch_settings_section_desc'
 			], 
-			'ch_settings_section' 
+			'ch_control_settings_section' 
 		);
 
 		add_settings_field( 
@@ -336,7 +350,7 @@ class Connect_Hub_Settings_Api
 			[ 
 				$this, 'ch_control_center_setting_messaging' 
 			], 
-			'ch_settings_section', 
+			'ch_control_settings_section', 
 			'ch_control_center' 
 		);
 
@@ -346,7 +360,7 @@ class Connect_Hub_Settings_Api
 			[ 
 				$this, 'ch_control_center_setting_negotiation' 
 			], 
-			'ch_settings_section', 
+			'ch_control_settings_section', 
 			'ch_control_center' 
 		);
 
@@ -356,9 +370,145 @@ class Connect_Hub_Settings_Api
 			[ 
 				$this, 'ch_control_center_setting_banner' 
 			], 
-			'ch_settings_section', 
+			'ch_control_settings_section', 
 			'ch_control_center' 
 		);
+	}
+
+	public function ch_register_settings_header_banner()
+	{
+		register_setting( 
+			'ch_header_banner', 
+			'ch_header_banner', 
+			'ch_header_banner_sanitize'
+		);
+
+		add_settings_section( 
+			'ch_header_banner', 
+			__( 'Create your Banner', 'connect-hub'), 
+			[
+				$this, 'ch_settings_section_header_banner_desc'
+			], 
+			'ch_header_banner_settings_section' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_textarea', 
+			__( 'Enter the text for the banner', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_textarea' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_font_size', 
+			__( 'Font size (px):', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_font_size' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_font_color', 
+			__( 'Font color:', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_font_color' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_background_color', 
+			__( 'Background color:', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_background_color' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_link_color', 
+			__( 'Link color:', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_link_color' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+		add_settings_field( 
+			'ch_header_banner_custom_css', 
+			__( 'Custom CSS:', 'connect-hub' ), 
+			[ 
+				$this, 'ch_header_banner_custom_css' 
+			], 
+			'ch_header_banner_settings_section', 
+			'ch_header_banner' 
+		);
+
+	}
+
+	public function ch_header_banner_custom_css()
+	{
+		$options = get_option( 'ch_header_banner' );
+		$is_option_set = isset( $options[ 'custom_css' ] ) ? $options[ 'custom_css' ] : NULL;
+
+		echo '<textarea id="custom_css" name="ch_header_banner[custom_css]" rows="4" cols="100">' . $is_option_set . '</textarea>';
+	}
+
+	public function ch_header_banner_link_color()
+	{
+		
+		$options = get_option( 'ch_header_banner' );
+
+		$is_option_set = isset( $options[ 'link_color' ] ) ? $options[ 'link_color' ] : '#fff';
+
+		echo '<input type="color" id="linkcolor" name="ch_header_banner[link_color]" value="' . $is_option_set . '">';
+		echo '<label id="linkcolor"><label>';
+	}
+
+	public function ch_header_banner_background_color()
+	{
+		
+		$options = get_option( 'ch_header_banner' );
+
+		$is_option_set = isset( $options[ 'background_color' ] ) ? $options[ 'background_color' ] : '#fff';
+
+		echo '<input type="color" id="backgroundcolor" name="ch_header_banner[background_color]" value="' . $is_option_set . '">';
+		echo '<label id="backgroundcolor"><label>';
+	}
+
+	public function ch_header_banner_font_color()
+	{
+		
+		$options = get_option( 'ch_header_banner' );
+
+		$is_option_set = isset( $options[ 'font_color' ] ) ? $options[ 'font_color' ] : '#fff';
+
+		echo '<input type="color" id="fontcolor" name="ch_header_banner[font_color]" value="' . $is_option_set . '">';
+		echo '<label id="fontcolor"><label>';
+	}
+
+	public function ch_header_banner_textarea()
+	{
+		$options = get_option( 'ch_header_banner' );
+		$is_option_set = isset( $options[ 'textarea' ] ) ? $options[ 'textarea' ] : NULL;
+
+		echo '<textarea id="textarea" name="ch_header_banner[textarea]" placeholder="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups." rows="4" cols="100">' . $is_option_set . '</textarea>';
+	}
+
+	public function ch_header_banner_font_size()
+	{
+		$options = get_option( 'ch_header_banner' );
+
+		echo '<input type="number" id="fontsize" name="ch_header_banner[font_size]" value="' . esc_attr( $options[ 'font_size' ] ) . '">';
+		echo '<label id="fontsize"><label>';
 	}
 
 	/**
@@ -368,6 +518,11 @@ class Connect_Hub_Settings_Api
 	public function ch_settings_section_desc()
 	{
 		echo __( 'You can control every section of the plugin by check it or uncheck it.', 'connect-hub' );
+	}
+
+	public function ch_settings_section_header_banner_desc()
+	{
+		echo __( 'Please, make sure that you checked the Header Banner on the Control Center page.', 'connect-hub' );
 	}
 
 	/**
@@ -421,6 +576,7 @@ class Connect_Hub_Settings_Api
 	public function get_fields()
 	{
 		$options = get_option( 'ch_control_center_setting' );
+		$banner = get_option( 'ch_header_banner' );
 
 		if ( isset( $options[ 'messaging' ] ) ) {
 			echo 'Messaging Center is set on ' . $options[ 'messaging' ] . '<br>';
@@ -432,6 +588,14 @@ class Connect_Hub_Settings_Api
 
 		if ( isset( $options[ 'banner' ] ) ) {
 			echo 'Header Banner is set on ' . $options[ 'banner' ] . '<br>';
+		}
+
+		if ( isset( $banner[ 'textarea' ] ) ) {
+			echo $banner[ 'textarea' ] . '<br>';
+		}
+
+		if ( isset( $banner[ 'font_color' ] ) ) {
+			echo $banner[ 'font_color' ] . '<br>';
 		}
 	}
 }
