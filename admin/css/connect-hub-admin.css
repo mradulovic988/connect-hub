@@ -56,3 +56,11 @@ input:checked + .slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+input#fontcolor,
+input#backgroundcolor,
+input#linkcolor,
+input#fontsize {
+    width: 170px;
+    height: 30px;
+}

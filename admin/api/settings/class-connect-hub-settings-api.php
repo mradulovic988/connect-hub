@@ -19,18 +19,25 @@
  * @subpackage Connect_Hub/includes
  * @author     Marko Radulovic <mradulovic988@gmail.com>
  */
+
 class Connect_Hub_Settings_Api 
 {
 	
 	public function __construct()
 	{
+		// Adding admin pages
 		add_action( 'admin_menu', [ $this, 'add_admin_pages' ] );
+
+		// Adding register setting for control center
 		add_action( 'admin_init', [ $this, 'ch_register_settings_control_center' ] );
 
+		// Adding register setting for header banner
 		add_action( 'admin_init', [ $this, 'ch_register_settings_header_banner' ] );
 
+		// Adding get_fields method to show on front end every result from settings API - DELETE LATER
 		add_action( 'wp_head', [ $this, 'get_fields' ] );
 
+		// Error notice for submiting results
 		add_action( 'admin_notices', [ $this, 'error_notice' ] );
 	}
 
@@ -39,83 +46,21 @@ class Connect_Hub_Settings_Api
 	 */
 	public function add_admin_pages() 
 	{
-		add_menu_page( 
-			__( 'Connect Hub', 'connect-hub' ), 
-			__( 'Connect Hub', 'connect-hub' ), 
-			'manage_options', 
-			'ch_connect_hub', 
-			[ 
-				$this, 'ch_control_center', 
-			],
-			$this->dashicon_icon(),
-			65
-		);
+		add_menu_page( __( 'Connect Hub', 'connect-hub' ), __( 'Connect Hub', 'connect-hub' ), 'manage_options', 'ch_connect_hub', [ $this, 'ch_control_center', ], $this->dashicon_icon(), 65 );
+		add_submenu_page( 'ch_connect_hub', __( 'Control Center', 'connect-hub' ), __( 'Control Center', 'connect-hub' ), 'manage_options', 'ch_connect_hub', [ $this, 'ch_control_center' ] );
+		add_submenu_page( 'ch_connect_hub', __( 'Messaging Center', 'connect-hub' ), __( 'Messaging Center', 'connect-hub' ), 'manage_options', 'ch_messaging_center', [ $this, 'ch_messaging_center' ] );
+		add_submenu_page( 'ch_connect_hub', __( 'Negotiation Hub', 'connect-hub' ), __( 'Negotiation Hub', 'connect-hub' ), 'manage_options', 'ch_negotiation_hub', [ $this, 'ch_negotiation_hub' ] );
+		add_submenu_page( 'ch_connect_hub', __( 'Header Banner', 'connect-hub' ), __( 'Header Banner', 'connect-hub' ), 'manage_options', 'ch_header_banner', [ $this, 'ch_header_banner' ] );
+		add_submenu_page( 'ch_connect_hub', __( 'Documentation', 'connect-hub' ), __( 'Documentation', 'connect-hub' ), 'manage_options', 'ch_documentation', [ $this, 'ch_documentation' ] );
+		add_submenu_page( 'ch_connect_hub', __( 'Update to PRO', 'connect-hub' ), __( 'Update to PRO', 'connect-hub' ), 'manage_options', 'ch_update_to_pro', [ $this, 'ch_update_to_pro' ] );	
+	}
 
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Control Center', 'connect-hub' ),
-			__( 'Control Center', 'connect-hub' ),
-			'manage_options',
-			'ch_connect_hub',
-			[
-				$this, 'ch_control_center'
-			]
-		);
-
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Messaging Center', 'connect-hub' ),
-			__( 'Messaging Center', 'connect-hub' ),
-			'manage_options',
-			'ch_messaging_center',
-			[
-				$this, 'ch_messaging_center'
-			]
-		);
-
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Negotiation Hub', 'connect-hub' ),
-			__( 'Negotiation Hub', 'connect-hub' ),
-			'manage_options',
-			'ch_negotiation_hub',
-			[
-				$this, 'ch_negotiation_hub'
-			]
-		);
-
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Header Banner', 'connect-hub' ),
-			__( 'Header Banner', 'connect-hub' ),
-			'manage_options',
-			'ch_header_banner',
-			[
-				$this, 'ch_header_banner'
-			]
-		);
-
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Documentation', 'connect-hub' ),
-			__( 'Documentation', 'connect-hub' ),
-			'manage_options',
-			'ch_documentation',
-			[
-				$this, 'ch_documentation'
-			]
-		);
-
-		add_submenu_page(
-			'ch_connect_hub',
-			__( 'Update to PRO', 'connect-hub' ),
-			__( 'Update to PRO', 'connect-hub' ),
-			'manage_options',
-			'ch_update_to_pro',
-			[
-				$this, 'ch_update_to_pro'
-			]
-		);	
+	/**
+	 * Show notice message on form submit
+	 */
+	public function error_notice()
+	{
+		settings_errors();
 	}
 
 	/**
@@ -137,17 +82,11 @@ class Connect_Hub_Settings_Api
 	{
 		?>
 		<h2 class="nav-tab-wrapper">
-			
 			<a href="?page=ch_connect_hub" class="nav-tab <?php if($active_tab == 'ch_connect_hub'){echo 'nav-tab-active';} ?> "><?php _e('Control Center', 'connect-hub'); ?></a>
-
 			<a href="?page=ch_messaging_center" class="nav-tab <?php if($active_tab == 'ch_messaging_center'){echo 'nav-tab-active';} ?>"><?php _e('Messaging Center', 'connect-hub'); ?></a>
-
 			<a href="?page=ch_negotiation_hub" class="nav-tab <?php if($active_tab == 'ch_negotiation_hub'){echo 'nav-tab-active';} ?>"><?php _e('Negotiation Hub', 'connect-hub'); ?></a>
-
 			<a href="?page=ch_header_banner" class="nav-tab <?php if($active_tab == 'ch_header_banner'){echo 'nav-tab-active';} ?>"><?php _e('Header Banner', 'connect-hub'); ?></a>
-
 			<a href="?page=ch_documentation" class="nav-tab <?php if($active_tab == 'ch_documentation'){echo 'nav-tab-active';} ?>"><?php _e('Documentation', 'connect-hub'); ?></a>
-
 			<a href="?page=ch_update_to_pro" class="nav-tab <?php if($active_tab == 'ch_update_to_pro'){echo 'nav-tab-active';} ?>"><?php _e('Update to PRO', 'connect-hub'); ?></a>
 		</h2>
 		<?php
@@ -189,14 +128,6 @@ class Connect_Hub_Settings_Api
 
 		</div>
 		<?php
-	}
-
-	/**
-	 * Show notice message on form submit
-	 */
-	public function error_notice()
-	{
-		settings_errors();
 	}
 
 	/**
@@ -329,128 +260,27 @@ class Connect_Hub_Settings_Api
 	 */
 	public function ch_register_settings_control_center()
 	{
-		register_setting( 
-			'ch_control_center_setting', 
-			'ch_control_center_setting', 
-			'ch_control_center_setting_sanitize'
-		);
+		register_setting( 'ch_control_center_setting', 'ch_control_center_setting', 'ch_control_center_setting_sanitize' );
 
-		add_settings_section( 
-			'ch_control_center', 
-			__( 'Turn On / Off', 'connect-hub'), 
-			[
-				$this, 'ch_settings_section_desc'
-			], 
-			'ch_control_settings_section' 
-		);
+		add_settings_section( 'ch_control_center', __( 'Turn On / Off', 'connect-hub'), [ $this, 'ch_settings_section_desc' ],'ch_control_settings_section' );
 
-		add_settings_field( 
-			'ch_control_center_setting_messaging', 
-			__( 'Messaging Center', 'connect-hub' ), 
-			[ 
-				$this, 'ch_control_center_setting_messaging' 
-			], 
-			'ch_control_settings_section', 
-			'ch_control_center' 
-		);
-
-		add_settings_field( 
-			'ch_control_center_setting_negotiation', 
-			__( 'Negotiation Hub', 'connect-hub' ), 
-			[ 
-				$this, 'ch_control_center_setting_negotiation' 
-			], 
-			'ch_control_settings_section', 
-			'ch_control_center' 
-		);
-
-		add_settings_field( 
-			'ch_control_center_setting_banner', 
-			__( 'Header Banner', 'connect-hub' ), 
-			[ 
-				$this, 'ch_control_center_setting_banner' 
-			], 
-			'ch_control_settings_section', 
-			'ch_control_center' 
-		);
+		add_settings_field( 'ch_control_center_setting_messaging', __( 'Messaging Center', 'connect-hub' ), [ $this, 'ch_control_center_setting_messaging' ], 'ch_control_settings_section', 'ch_control_center');
+		add_settings_field( 'ch_control_center_setting_negotiation', __( 'Negotiation Hub', 'connect-hub' ), [ $this, 'ch_control_center_setting_negotiation' ], 'ch_control_settings_section', 'ch_control_center' );
+		add_settings_field( 'ch_control_center_setting_banner', __( 'Header Banner', 'connect-hub' ), [ $this, 'ch_control_center_setting_banner' ], 'ch_control_settings_section', 'ch_control_center' );
 	}
 
 	public function ch_register_settings_header_banner()
 	{
-		register_setting( 
-			'ch_header_banner', 
-			'ch_header_banner', 
-			'ch_header_banner_sanitize'
-		);
+		register_setting( 'ch_header_banner', 'ch_header_banner', 'ch_header_banner_sanitize' );
 
-		add_settings_section( 
-			'ch_header_banner', 
-			__( 'Create your Banner', 'connect-hub'), 
-			[
-				$this, 'ch_settings_section_header_banner_desc'
-			], 
-			'ch_header_banner_settings_section' 
-		);
+		add_settings_section( 'ch_header_banner', __( 'Create your Banner', 'connect-hub'), [ $this, 'ch_settings_section_header_banner_desc'], 'ch_header_banner_settings_section' );
 
-		add_settings_field( 
-			'ch_header_banner_textarea', 
-			__( 'Enter the text for the banner', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_textarea' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
-
-		add_settings_field( 
-			'ch_header_banner_font_size', 
-			__( 'Font size (px):', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_font_size' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
-
-		add_settings_field( 
-			'ch_header_banner_font_color', 
-			__( 'Font color:', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_font_color' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
-
-		add_settings_field( 
-			'ch_header_banner_background_color', 
-			__( 'Background color:', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_background_color' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
-
-		add_settings_field( 
-			'ch_header_banner_link_color', 
-			__( 'Link color:', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_link_color' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
-
-		add_settings_field( 
-			'ch_header_banner_custom_css', 
-			__( 'Custom CSS:', 'connect-hub' ), 
-			[ 
-				$this, 'ch_header_banner_custom_css' 
-			], 
-			'ch_header_banner_settings_section', 
-			'ch_header_banner' 
-		);
+		add_settings_field( 'ch_header_banner_textarea', __( 'Enter the text for the banner', 'connect-hub' ), [ $this, 'ch_header_banner_textarea' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
+		add_settings_field( 'ch_header_banner_font_size', __( 'Font size (px):', 'connect-hub' ), [ $this, 'ch_header_banner_font_size' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
+		add_settings_field( 'ch_header_banner_font_color', __( 'Font color:', 'connect-hub' ), [ $this, 'ch_header_banner_font_color' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
+		add_settings_field( 'ch_header_banner_background_color', __( 'Background color:', 'connect-hub' ), [ $this, 'ch_header_banner_background_color' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
+		add_settings_field( 'ch_header_banner_link_color', __( 'Link color:', 'connect-hub' ), [ $this, 'ch_header_banner_link_color' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
+		add_settings_field( 'ch_header_banner_custom_css', __( 'Custom CSS:', 'connect-hub' ), [ $this, 'ch_header_banner_custom_css' ], 'ch_header_banner_settings_section', 'ch_header_banner' );
 
 	}
 

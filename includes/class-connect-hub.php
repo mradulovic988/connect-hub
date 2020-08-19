@@ -132,6 +132,7 @@ class Connect_Hub
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/api/settings/class-connect-hub-settings-api.php';
 
 		$this->loader = new Connect_Hub_Loader();
+		
 
 	}
 
